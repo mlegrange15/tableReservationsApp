@@ -1,0 +1,116 @@
+<!Doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Tables Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></script> -->
+</head>
+
+<body style>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="text-center">
+                <span class="glyphicon glyphicon-fire"></span>
+                Hot Restaurant
+            </h1>
+            <hr>
+            <h2 class="text-center">Current Reservation and Waiting List</h2>
+            <br>
+            <div class="text-center">
+                <a href="/add">
+                    <button type="button" class="btn btn-lg btn-danger">
+                        <span class="glyphicon glyphicon-credit-card"></span>
+                        Make Reservation
+                    </button>
+                </a>
+                <a href="/">
+                    <button type="button" class="btn btn-lg btn-default">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Current Reservations</h4>
+                    </div>
+                    <div class="panel-body" id="tableSection">
+
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Waiting List</h4>
+                    </div>
+                    <div class="panel-body" id="waitlistSection">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- <footer class="footer">
+            <div class="container">
+                <p>Control Panel</p>
+                <p>
+                    <a href="#" id="clear">Clear Table</a>
+                    |
+                    <a href="/api/tables">API Table Link</a>
+                    |
+                    <a href="/api/waitlist">API Wait List</a>
+                </p>
+            </div>
+        </footer> -->
+    </div>
+
+    <script type="text/javascript">
+
+        $.get("/view/tables", function (data) {
+            for (var i = 0; i < data.length; i++) {
+
+
+               var tables = data.slice(0,4);
+               var waitlist = data.slice(5);
+               console.log(waitlist);
+               
+            }
+
+               for (var i = 0; i < tables.length; i++) { 
+
+
+                    var tableSection = $("<div>");
+                    tableSection.addClass("table");
+                    tableSection.attr("id", "table-" + i);
+                    $("#tableSection").append(tableSection);
+
+                    $("#table-" + i).append("<h2>Name: " + data[i].customerName + "</h2>");
+                    $("#table-" + i).append("<h3>Email: " + data[i].customerEmail + "</h4>");
+                    $("#table-" + i).append("<h3>Phone Number: " + data[i].phoneNumber + "</h4>");
+                    $("#table-" + i).append("<h3>Id: " + data[i].customerId + "</h4>");
+
+
+               }
+
+               for (var i = 0; i < waitlist.length; i++) { 
+
+                    var tableSection = $("<div>");
+                    tableSection.addClass("table");
+                    tableSection.attr("id", "wait-" + i);
+                    $("#waitlistSection").append(tableSection);
+
+                    $("#wait-" + i).append("<h2>Name: " + data[i].customerName + "</h2>");
+                    $("#wait-" + i).append("<h3>Email: " + data[i].customerEmail + "</h4>");
+                    $("#wait-" + i).append("<h3>Phone Number: " + data[i].phoneNumber + "</h4>");
+                    $("#wait-" + i).append("<h3>Id: " + data[i].customerId + "</h4>");
+
+                }
+        });
+    </script>
+</body>
+
+</html>
